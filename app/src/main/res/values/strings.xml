@@ -3,4 +3,6 @@
     <string name="ability_name">Ability</string>
     <string name="ability_score">Score</string>
     <string name="ability_bonus">Bonus</string>
+    <string name="increment">Up</string>
+    <string name="decrement">DN</string>
 </resources>

@@ -9,12 +9,12 @@ import java.util.Random;
  */
 
 public class Ability {
-    private static final String TAG = "Ability";
+    private static final String TAG = "Ability: ";
 
-    static final Integer AVERAGE_ABILITY_SCORE = 10;
-    static final Integer ABILITY_SCORE_DIVISOR = 2;
-    static final Integer MAX_D6 = 6;
-    static final Integer MIN_D6 = 1;
+    private static final Integer AVERAGE_ABILITY_SCORE = 10;
+    private static final Integer ABILITY_SCORE_DIVISOR = 2;
+    private static final Integer MAX_D6 = 6;
+    private static final Integer MIN_D6 = 1;
 
     private String name;
     private String shortName;
@@ -49,6 +49,14 @@ public class Ability {
         return bonus;
     }
 
+    public void increment() {
+        putScore(getScore()+1);
+    }
+
+    public void decrement() {
+        putScore(getScore()-1);
+    }
+
     public void roll() {
         Random rand = new Random();
         int[] rolls = new int[4];
@@ -57,7 +65,6 @@ public class Ability {
         for (int i = 0; i < rolls.length; i++) {
             rolls[i] = rand.nextInt(MAX_D6) + MIN_D6;
             score += rolls[i];
-            Log.v(TAG, name+": roll of: "+rolls[i]);
         }
 
         score -= min(rolls);
@@ -67,13 +74,11 @@ public class Ability {
 
     private int min(int[] rolls) {
         int min = rolls[0];
-        Log.v(TAG, name+": original min val: "+min);
         for(int check : rolls) {
             if (check < min) {
                 min = check;
             }
         }
-        Log.v(TAG, name+": min val: "+min);
         return min;
     }
 }

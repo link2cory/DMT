@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:id="@+id/ability_list_row">
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,5 +28,26 @@
         android:padding="8dp"
         android:textSize="15sp"
         android:layout_weight="1"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:visibility="gone"
+                  android:id="@+id/ability_tweaker_container">
+        <Button
+            android:id="@+id/increment_button"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:onClick="incrementButtonListener"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/decrement_button"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:onClick="decrementButtonListener"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </LinearLayout>

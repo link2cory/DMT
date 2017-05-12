@@ -1,6 +1,8 @@
 package com.coryperkins.dmt;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -8,6 +10,7 @@ import java.util.ArrayList;
  */
 
 public class Character {
+    private static final String TAG = "Character: ";
     static final String STRENGTH_NAME = "strength";
     static final String STRENGTH_SHORT_NAME = "str";
     static final String DEXTERITY_NAME = "dexterity";
@@ -30,6 +33,20 @@ public class Character {
             abilities.add(new Ability(INTELLIGENCE_NAME, INTELLIGENCE_SHORT_NAME));
             abilities.add(new Ability(WISDOM_NAME, WISDOM_SHORT_NAME));
             abilities.add(new Ability(CHARISMA_NAME, CHARISMA_SHORT_NAME));
+    }
+
+    public void rollAbilities() {
+        for (Ability ability : abilities) {
+            ability.roll();
+        }
+    }
+
+    public void incrementAbilityScore(int index) {
+        abilities.get(index).increment();
+    }
+
+    public void decrementAbilityScore(int index) {
+        abilities.get(index).decrement();
     }
 }
 
