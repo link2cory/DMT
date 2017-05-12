@@ -19,8 +19,11 @@ import java.util.ArrayList;
  */
 
 public class AbilityFragment extends Fragment {
+    boolean swappable_scores = true;
+    int last_ability_clicked = NO_ABILITY;
     boolean tweakable_scores = true;
     private static final String TAG = "AbilityFragment: ";
+    private static final int NO_ABILITY = -1;
 
     AbilityArrayListAdapter abilityArrayListAdapter;
     CharacterCommunicator characterCommunicator;
@@ -70,6 +73,39 @@ public class AbilityFragment extends Fragment {
     public void updateAbilities() {
         // abilityTableDataAdapter.notifyDataSetChanged();
         abilityArrayListAdapter.notifyDataSetChanged();
+    }
+
+    private void abilitySwapListener(View v) {
+        if (last_ability_clicked > NO_ABILITY) {
+            if (last_ability_clicked != (int)v.getTag()) {
+                // swap the last ability score with this one
+                int t = characterCommunicator.getCharacterAbilities().get((int)v.getTag()).getScore();
+                characterCommunicator.getCharacterAbilities().get((int)v.getTag()).putScore(characterCommunicator.getCharacterAbilities().get(last_ability_clicked).getScore());
+                characterCommunicator.getCharacterAbilities().get(last_ability_clicked).putScore(t);
+                abilityArrayListAdapter.notifyDataSetChanged();
+            }
+
+
+            getViewByPosition(last_ability_clicked, (ListView)v.getParent()).setBackgroundColor(getResources().getColor(R.color.colorBackground));
+            v.setBackgroundColor(getResources().getColor(R.color.colorBackground));
+            last_ability_clicked = NO_ABILITY;
+        } else{
+            // user selected this ability score to be swapped
+            last_ability_clicked = (int)v.getTag();
+            v.setBackgroundColor(getResources().getColor(R.color.colorHighlighted));
+        }
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 
     class AbilityArrayListAdapter extends ArrayAdapter<Ability> {
@@ -124,7 +160,18 @@ public class AbilityFragment extends Fragment {
                 tweaker.findViewById(R.id.decrement_button).setTag(position);
             }
 
+            convertView.setTag(position);
+            if (swappable_scores) {
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        abilitySwapListener(v);
+                    }
+                });
+
+            }
             return convertView;
         }
     }
 }
+
